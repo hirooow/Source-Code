@@ -79,7 +79,7 @@ $appointments = $conn->query("
     <div class="page-content">
 
         <!-- ── Page Header ─────────────────────────────────────── -->
-        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px;background:var(--white);border:var(--border);border-radius:14px;padding:12px 18px;box-shadow:0 1px 6px rgba(0,0,0,0.05);">
+        <div class="page-header-bar" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px;background:var(--white);border:var(--border);border-radius:14px;padding:12px 18px;box-shadow:0 1px 6px rgba(0,0,0,0.05);">
             <div style="display:flex;align-items:center;gap:10px;">
                 <div style="width:40px;height:40px;background:linear-gradient(135deg,#2563eb,#60a5fa);border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                     <i class="bi bi-calendar2-check" style="color:var(--white);font-size:1.1rem;"></i>
@@ -97,7 +97,7 @@ $appointments = $conn->query("
         </div>
 
         <!-- ── Quick Status Tabs ────────────────────────────────── -->
-        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;">
+        <div class="mobile-tab-bar" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;">
             <?php
             $tab_statuses = [
                 '' => ['label'=>'All', 'icon'=>'bi-grid-3x3-gap', 'color'=>'#2563eb', 'bg'=>'#eff6ff', 'border'=>'#bfdbfe'],
@@ -125,7 +125,7 @@ $appointments = $conn->query("
         <!-- ── Filter Bar ───────────────────────────────────────── -->
         <form method="GET" style="background:var(--white);border:var(--border);border-radius:12px;padding:12px 16px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.04);">
             <?php if ($status_filter): ?><input type="hidden" name="status" value="<?php echo htmlspecialchars($status_filter); ?>"><?php endif; ?>
-            <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+            <div class="mobile-filter-bar" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
                 <div style="position:relative;flex:1;min-width:200px;">
                     <i class="bi bi-search" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--gray-400);font-size:0.82rem;"></i>
                     <input type="text" name="search" style="width:100%;padding:8px 12px 8px 32px;border:1.5px solid var(--gray-200);border-radius:9px;font-size:0.82rem;outline:none;transition:border 0.15s;" placeholder="Search patient or code…" value="<?php echo htmlspecialchars($search); ?>" onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#e2e8f0'">
@@ -154,9 +154,9 @@ $appointments = $conn->query("
         </form>
 
         <!-- ── Table ────────────────────────────────────────────── -->
-        <div style="background:var(--white);border-radius:14px;border:var(--border);overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.06);">
-            <div class="table-responsive">
-<table style="width:100%;border-collapse:collapse;" id="appointmentsTable">
+        <div class="mobile-card-table-wrap" style="background:var(--white);border-radius:14px;border:var(--border);overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.06);">
+            <div class="table-responsive" style="overflow-x:auto;">
+<table style="width:100%;border-collapse:collapse;" id="appointmentsTable" class="mobile-card-table">
                 <thead>
                    <tr style="background:linear-gradient(to bottom,var(--gray-100),var(--gray-200));border-bottom:2px solid var(--gray-300);">
                        <th style="padding:12px 16px;font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:0.07em;color:var(--gray-600);text-align:left;">Code</th>
@@ -193,22 +193,22 @@ $appointments = $conn->query("
                     ?>
                     <tr style="<?php echo $rowBg; ?>border-bottom:1px solid var(--gray-100);transition:background 0.15s;" onmouseover="this.style.background='var(--gray-50)'" onmouseout="this.style.background='<?php echo $isToday ? 'linear-gradient(to right,var(--blue-50),var(--white))' : 'var(--white)'; ?>'">
                         <!-- Code -->
-                        <td style="padding:13px 16px;">
+                        <td data-label="Code" style="padding:13px 16px;">
                             <div style="display:flex;align-items:center;gap:6px;">
                                 <?php if ($isToday): ?><span style="width:6px;height:6px;border-radius:50%;background:#2563eb;display:inline-block;flex-shrink:0;box-shadow:0 0 0 2px #bfdbfe;"></span><?php endif; ?>
                                 <span style="font-size:0.79rem;font-weight:700;color:var(--primary);font-family:monospace;"><?php echo htmlspecialchars($a['appointment_code']); ?></span>
                             </div>
                         </td>
                         <!-- Patient -->
-                        <td style="padding:13px 16px;">
+                        <td data-label="Patient" style="padding:13px 16px;">
                             <div style="font-size:0.85rem;font-weight:700;color:var(--gray-900);"><?php echo htmlspecialchars(ucwords(strtolower($a['patient_name']))); ?></div>
                         </td>
                         <!-- Service -->
-                        <td style="padding:13px 16px;">
+                        <td data-label="Service" style="padding:13px 16px;">
                             <div style="font-size:0.82rem;color:var(--gray-600);font-weight:500;"><?php echo htmlspecialchars($a['service_name'] ?? '—'); ?></div>
                         </td>
                         <!-- Doctor -->
-                        <td style="padding:13px 16px;">
+                        <td data-label="Doctor" style="padding:13px 16px;">
                             <?php if (!empty($a['doctor_name'])): ?>
                             <span style="display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;background:linear-gradient(135deg,#2563eb,#60a5fa);color:var(--white);font-size:0.71rem;font-weight:700;white-space:nowrap;">
                                 <i class="bi bi-person-badge" style="font-size:0.68rem;"></i>
@@ -219,19 +219,19 @@ $appointments = $conn->query("
                             <?php endif; ?>
                         </td>
                         <!-- Date & Time (merged) -->
-                        <td style="padding:13px 16px;">
+                        <td data-label="Date & Time" style="padding:13px 16px;">
                             <div style="font-size:0.82rem;font-weight:700;color:var(--gray-700);"><?php echo date('M d, Y', strtotime($a['appointment_date'])); ?></div>
                             <div style="font-size:0.73rem;color:var(--gray-400);margin-top:1px;"><i class="bi bi-clock" style="font-size:0.65rem;"></i> <?php echo date('h:i A', strtotime($a['appointment_time'])); ?></div>
                         </td>
                         <!-- Status -->
-                        <td style="padding:13px 16px;">
+                        <td data-label="Status" style="padding:13px 16px;">
                             <span style="display:inline-flex;align-items:center;gap:4px;padding:4px 11px;border-radius:20px;font-size:0.73rem;font-weight:700;background:<?php echo $sCfg['bg']; ?>;color:<?php echo $sCfg['color']; ?>;border:1.5px solid <?php echo $sCfg['border']; ?>;">
                                 <i class="bi <?php echo $sCfg['icon']; ?>" style="font-size:0.68rem;"></i>
                                 <?php echo $sCfg['label']; ?>
                             </span>
                         </td>
                         <!-- Actions -->
-                        <td style="padding:13px 16px;">
+                        <td data-label="Actions" style="padding:13px 16px;">
                             <div style="display:flex;gap:5px;flex-wrap:wrap;align-items:center;">
                                 <?php if ($a['status'] === 'confirmed'): ?>
                                 <a href="<?php echo BASE_URL; ?>modules/treatments/add.php?patient_id=<?php echo $a['patient_id']; ?>&appointment_id=<?php echo $a['id']; ?>"
@@ -285,7 +285,8 @@ $appointments = $conn->query("
                     <?php endif; ?>
                 </tbody>
             </table>
-        </div>
+            </div><!-- /.table-responsive -->
+        </div><!-- /.mobile-card-table-wrap -->
 
         <?php if ($total_pages > 1): ?>
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-top:16px;background:var(--white);border:var(--border);border-radius:12px;padding:10px 16px;box-shadow:0 1px 4px rgba(0,0,0,0.04);">
