@@ -347,7 +347,8 @@ $collection_rate = $totals['total_due'] > 0
 
         <!-- Bills Table -->
         <div class="bill-table-wrap">
-            <table class="table mb-0">
+            <div class="table-responsive">
+<table class="table mb-0">
                 <thead>
                     <tr>
                         <th>Bill</th>
