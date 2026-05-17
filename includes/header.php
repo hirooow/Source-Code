@@ -124,13 +124,13 @@ if (isset($conn) && (time() - $cache_time) > 30) {
 
         <div class="topbar-user">
             <div class="mini-avatar"><?php echo $initials; ?></div>
-            <span><?php echo e($current_user_name); ?></span>
-            <span class="badge bg-<?php echo $current_user_role === 'admin' ? 'primary' : 'secondary'; ?> ms-1">
+            <span class="topbar-user-name"><?php echo e($current_user_name); ?></span>
+            <span class="topbar-user-role badge bg-<?php echo $current_user_role === 'admin' ? 'primary' : 'secondary'; ?> ms-1">
                 <?php echo ucfirst($current_user_role); ?>
             </span>
         </div>
         <a href="<?php echo BASE_URL; ?>logout.php" class="btn-logout">
-            <i class="bi bi-box-arrow-right"></i> Logout
+            <i class="bi bi-box-arrow-right"></i><span class="btn-logout-text"> Logout</span>
         </a>
     </div>
 </div>
