@@ -185,7 +185,8 @@ $services = $conn->query(
         <!-- Services Table -->
         <div class="card">
             <div class="card-body p-0">
-                <table class="table table-hover mb-0" id="servicesTable">
+                <div class="table-responsive">
+<table class="table table-hover mb-0" id="servicesTable">
                     <thead>
                         <tr>
                             <th>#</th>
