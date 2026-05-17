@@ -4430,19 +4430,46 @@ th.num {
 
 /* ── Topbar mobile: shrink user text, hide logout label ──── */
 @media (max-width: 768px) {
-    .topbar-right > .topbar-user > span:first-of-type {
-        display: none; /* hide name text, keep avatar */
+    /* Hide name + role badge — keep only the avatar */
+    .topbar-user-name,
+    .topbar-user-role { display: none !important; }
+
+    /* topbar-user becomes just the avatar bubble */
+    .topbar-user {
+        padding: 4px 6px !important;
+        gap: 0 !important;
+        border: none !important;
+        background: transparent !important;
     }
-    .btn-logout .nav-label,
-    .btn-logout span { display: none; }
-    .btn-logout { padding: 8px 10px; min-width: 0; }
+
+    /* Hide "Logout" text — keep only the icon */
+    .btn-logout-text { display: none !important; }
+    .btn-logout {
+        padding: 8px 10px !important;
+        min-width: 40px !important;
+        justify-content: center !important;
+    }
 
     /* Bigger touch targets for all icon buttons */
     #sidebar-toggle,
     #theme-toggle,
     .notif-btn {
-        min-width: 44px;
-        min-height: 44px;
+        min-width: 44px !important;
+        min-height: 44px !important;
+        width: 44px !important;
+        height: 44px !important;
+    }
+
+    /* Tighten topbar gap and padding */
+    #topbar {
+        padding: 0 12px !important;
+        gap: 4px !important;
+    }
+    .topbar-right {
+        gap: 4px !important;
+    }
+    .topbar-left {
+        gap: 8px !important;
     }
 }
 
@@ -4587,9 +4614,10 @@ th.num {
 
     /* Notification panel: full-width on mobile */
     .notif-panel {
-        width: calc(100vw - 28px) !important;
-        right: -14px !important;
+        width: calc(100vw - 24px) !important;
+        right: -8px !important;
         left: auto !important;
+        max-height: 70vh !important;
     }
 }
 
