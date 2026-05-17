@@ -55,7 +55,8 @@ $users = $conn->query("SELECT * FROM users ORDER BY role ASC, full_name ASC")->f
 
         <div class="card">
             <div class="card-body p-0">
-                <table class="table table-hover mb-0">
+                <div class="table-responsive">
+<table class="table table-hover mb-0">
                     <thead>
                         <tr>
                             <th>Full Name</th>
