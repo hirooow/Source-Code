@@ -204,6 +204,37 @@ if (isset($conn) && (time() - $cache_time) > 30) {
 [data-theme="dark"] .notif-item.unread:hover { background: rgba(37,99,235,0.22); }
 [data-theme="dark"] .notif-title { color: var(--gray-100); }
 [data-theme="dark"] .notif-msg   { color: var(--gray-400); }
+
+/* ── Notification panel — mobile ───────────────────────── */
+@media (max-width: 768px) {
+    .notif-panel {
+        /* Pin to right edge of screen, not the bell button */
+        position: fixed;
+        top: 64px;
+        right: 12px;
+        left: 12px;
+        width: auto;
+        max-height: 70vh;
+        overflow-y: auto;
+        border-radius: 14px;
+        box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+    }
+    .notif-panel-body {
+        max-height: calc(70vh - 52px);
+    }
+    /* Slightly more compact items on mobile */
+    .notif-item {
+        padding: 10px 12px;
+        gap: 8px;
+    }
+    .notif-icon {
+        width: 30px;
+        height: 30px;
+        font-size: 0.8rem;
+    }
+    .notif-title { font-size: 0.79rem; }
+    .notif-msg   { font-size: 0.72rem; -webkit-line-clamp: 2; }
+}
 </style>
 
 <script>
