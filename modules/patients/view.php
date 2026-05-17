@@ -87,7 +87,8 @@ $total_paid = array_sum(array_column($payments, 'amount_paid'));
                 <div class="card mb-3">
                     <div class="card-header">Personal Information</div>
                     <div class="card-body">
-                        <table class="table table-sm table-borderless mb-0">
+                        <div class="table-responsive">
+<table class="table table-sm table-borderless mb-0">
                             <tr><th class="text-muted" style="width:40%">Full Name</th><td><?php echo htmlspecialchars($patient['first_name'] . ' ' . ($patient['middle_name'] ? $patient['middle_name'] . ' ' : '') . $patient['last_name']); ?></td></tr>
                             <tr><th class="text-muted">Date of Birth</th><td><?php echo $patient['date_of_birth'] ? date('M d, Y', strtotime($patient['date_of_birth'])) : '—'; ?></td></tr>
                             <tr><th class="text-muted">Gender</th><td><?php echo ucfirst($patient['gender'] ?? '—'); ?></td></tr>
@@ -105,7 +106,8 @@ $total_paid = array_sum(array_column($payments, 'amount_paid'));
                 <div class="card mb-3">
                     <div class="card-header">Emergency Contact</div>
                     <div class="card-body">
-                        <table class="table table-sm table-borderless mb-0">
+                        <div class="table-responsive">
+<table class="table table-sm table-borderless mb-0">
                             <tr><th class="text-muted" style="width:40%">Name</th><td><?php echo htmlspecialchars($patient['emergency_contact_name'] ?? '—'); ?></td></tr>
                             <tr><th class="text-muted">Phone</th><td><?php echo htmlspecialchars($patient['emergency_contact_phone'] ?? '—'); ?></td></tr>
                         </table>
@@ -197,7 +199,8 @@ $total_paid = array_sum(array_column($payments, 'amount_paid'));
                 <div class="card mb-4">
                     <div class="card-header">Recent Appointments</div>
                     <div class="card-body p-0">
-                        <table class="table table-sm table-hover mb-0">
+                        <div class="table-responsive">
+<table class="table table-sm table-hover mb-0">
                             <thead>
                                 <tr><th>Code</th><th>Service</th><th>Doctor</th><th>Date</th><th>Status</th></tr>
                             </thead>
@@ -240,7 +243,8 @@ $total_paid = array_sum(array_column($payments, 'amount_paid'));
                         </a>
                     </div>
                     <div class="card-body p-0">
-                        <table class="table table-sm table-hover mb-0">
+                        <div class="table-responsive">
+<table class="table table-sm table-hover mb-0">
                             <thead>
                                 <tr><th>Service</th><th>Due</th><th>Paid</th><th>Method</th><th>Status</th><th>Date</th></tr>
                             </thead>
