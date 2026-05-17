@@ -13,6 +13,9 @@ function nav_active($path) {
     return strpos($_SERVER['PHP_SELF'], $path) !== false ? 'active' : '';
 }
 ?>
+<!-- Mobile sidebar backdrop — tap to close -->
+<div id="sidebar-backdrop" onclick="closeMobileSidebar()"></div>
+
 <div id="sidebar">
 
     <div class="sidebar-brand" id="brandTrigger" title="Click to customize" style="cursor:pointer;">
