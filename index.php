@@ -450,9 +450,25 @@ if ($view === 'otp_reset') {
     .form-subheading { font-size:0.8rem; color:#9ca3af; margin-bottom:28px; }
 
     @media (max-width: 640px) {
-        .login-panel { display:none; }
-        .login-wrap  { max-width:420px; border-radius:16px; }
-        .login-form-panel { padding:36px 28px; }
+        /* Hide left blue branding panel */
+        .login-panel { display: none; }
+
+        /* Card fills screen with small margin */
+        body.login-page { padding: 16px; align-items: flex-start; padding-top: 32px; }
+        .login-wrap { max-width: 100%; width: 100%; border-radius: 16px; min-height: 0; }
+        .login-form-panel { padding: 32px 22px; }
+        .form-heading { font-size: 1.15rem; }
+
+        /* Security check: stack math box above input on small phones */
+        .captcha-row { flex-direction: column !important; align-items: stretch !important; }
+        .captcha-row > div:first-child { min-width: 0 !important; width: 100% !important; }
+        .captcha-row input { max-width: 100% !important; }
+
+        /* Sign In button: taller for fingers */
+        .btn.btn-primary.btn-lg { min-height: 48px; font-size: 1rem; }
+
+        /* Fix iOS Safari background-attachment: fixed bug */
+        body.login-page { background-attachment: scroll !important; }
     }
 
     /* ── DARK MODE ──────────────────────────────────────────── */
@@ -661,7 +677,7 @@ if ($view === 'otp_reset') {
                 Security Check
                 <span style="font-size:0.72rem;color:#9ca3af;font-weight:400;">— prove you're human</span>
             </label>
-            <div style="display:flex;align-items:center;gap:10px;">
+            <div style="display:flex;align-items:center;gap:10px;" class="captcha-row">
                 <div style="background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:10px;
                             padding:10px 18px;font-weight:800;font-size:1.1rem;color:#1d4ed8;
                             white-space:nowrap;flex-shrink:0;min-width:120px;text-align:center;letter-spacing:0.05em;">
