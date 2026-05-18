@@ -363,6 +363,106 @@ $all_docs_dw = $conn->query("SELECT id, full_name, specialization, schedule_days
   transition:transform 0.12s;
 }
 .day-modal-appt:hover{transform:translateX(2px);}
+
+/* ═══════════════════════════════════════════════
+   MOBILE CALENDAR — phones ≤ 640px
+   ═══════════════════════════════════════════════ */
+@media (max-width: 640px) {
+
+    /* ── Page header: stack title + controls ── */
+    .cal-page-header {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 10px !important;
+        padding: 10px 12px !important;
+    }
+    .cal-page-header .view-toggle { margin-left: 0 !important; align-self: flex-start; }
+    .cal-header-actions {
+        display: flex !important;
+        gap: 8px !important;
+        width: 100% !important;
+    }
+    .cal-header-actions > * { flex: 1 !important; justify-content: center !important; }
+
+    /* ── View toggle: scrollable row ── */
+    .view-toggle {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        scrollbar-width: none !important;
+        flex-wrap: nowrap !important;
+    }
+    .view-toggle::-webkit-scrollbar { display: none; }
+    .view-toggle a { white-space: nowrap !important; padding: 6px 12px !important; }
+
+    /* ── Nav bar: compact ── */
+    .cal-nav-bar {
+        padding: 6px 10px !important;
+        gap: 6px !important;
+        flex-wrap: wrap !important;
+    }
+    .cal-nav-label {
+        min-width: 0 !important;
+        font-size: 0.82rem !important;
+        flex: 1 !important;
+        text-align: center !important;
+    }
+    .cal-nav-bar > span { display: none !important; } /* hide "X appointments this month" text */
+
+    /* ── Legend: horizontal scroll ── */
+    .svc-legend {
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        padding-bottom: 4px !important;
+        scrollbar-width: none !important;
+    }
+    .svc-legend::-webkit-scrollbar { display: none; }
+
+    /* ── Month grid: compact cells ── */
+    .cal-cell {
+        min-height: 54px !important;
+        padding: 4px 3px 3px !important;
+    }
+    .day-num { font-size: 0.68rem !important; margin-bottom: 3px !important; }
+    .today-dot {
+        width: 20px !important;
+        height: 20px !important;
+        font-size: 0.6rem !important;
+    }
+
+    /* Hide text chips — show dots only */
+    .appt-chip { display: none !important; }
+    .more-pill { display: none !important; }
+    .blocked-tag { font-size: 0.58rem !important; padding: 1px 4px !important; }
+
+    /* Dot row — shown only on mobile */
+    .mobile-dot-row {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 2px !important;
+        align-items: center !important;
+    }
+
+    /* ── Day-of-week header: abbreviate ── */
+    .cal-dow { font-size: 0.6rem !important; padding: 8px 0 !important; letter-spacing: 0 !important; }
+
+    /* ── Week view: show switch-to-day banner ── */
+    .week-mobile-tip { display: block !important; }
+    .week-grid-wrap  { display: none !important; }
+
+    /* ── Day view: tighter gutter ── */
+    .day-view-wrap { grid-template-columns: 46px 1fr !important; }
+    .day-time-slot { font-size: 0.58rem !important; padding: 3px 5px 0 0 !important; height: 54px !important; }
+    .day-appt-block { padding: 5px 8px !important; border-radius: 8px !important; }
+    .day-appt-title { font-size: 0.75rem !important; }
+
+    /* ── Day nav: compact ── */
+    .day-nav-bar {
+        gap: 8px !important;
+        flex-wrap: wrap !important;
+    }
+    .day-nav-bar h6 { min-width: 0 !important; font-size: 0.82rem !important; flex: 1 !important; text-align: center !important; }
+}
 </style>
 </head>
 <body>
@@ -371,7 +471,7 @@ $all_docs_dw = $conn->query("SELECT id, full_name, specialization, schedule_days
 <?php include '../../includes/header.php'; ?>
 <div class="page-content">
 
-<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px;background:var(--white);border:1px solid var(--gray-200);border-radius:14px;padding:10px 16px;box-shadow:var(--shadow-sm);">
+<div class="cal-page-header" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px;background:var(--white);border:1px solid var(--gray-200);border-radius:14px;padding:10px 16px;box-shadow:var(--shadow-sm);">
     <div style="display:flex;align-items:center;gap:8px;">
         <div style="width:36px;height:36px;background:linear-gradient(135deg,#2563eb,#60a5fa);border-radius:10px;display:flex;align-items:center;justify-content:center;">
             <i class="bi bi-calendar3" style="color:var(--white);font-size:1rem;"></i>
@@ -384,16 +484,14 @@ $all_docs_dw = $conn->query("SELECT id, full_name, specialization, schedule_days
     <div class="view-toggle" style="margin-left:10px;">
         <a href="calendar.php?view=month&month=<?php echo $month; ?>&year=<?php echo $year; ?>" class="<?php echo $view==='month'?'active':''; ?>"><i class="bi bi-calendar3"></i> Month</a>
         <?php
-            // BUG FIX: Use the currently viewed date as context when switching views,
-            // instead of always falling back to $today.
             if ($view === 'week')       $ctx = $week_start;
             elseif ($view === 'day')    $ctx = $day_date;
-            else                        $ctx = $month_start; // month view → first day of viewed month
+            else                        $ctx = $month_start;
         ?>
         <a href="calendar.php?view=week&date=<?php echo $ctx; ?>" class="<?php echo $view==='week'?'active':''; ?>"><i class="bi bi-calendar-week"></i> Week</a>
         <a href="calendar.php?view=day&date=<?php echo $ctx; ?>" class="<?php echo $view==='day'?'active':''; ?>"><i class="bi bi-calendar-day"></i> Day</a>
     </div>
-    <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
+    <div class="cal-header-actions" style="margin-left:auto;display:flex;gap:8px;align-items:center;">
         <button onclick="openWalkinDrawer()" style="display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:10px;background:linear-gradient(135deg,#16a34a,#22c55e);color:var(--white);border:none;font-size:0.82rem;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(22,163,74,0.3);transition:all 0.15s;" onmouseover="this.style.boxShadow='0 4px 14px rgba(22,163,74,0.45)'" onmouseout="this.style.boxShadow='0 2px 8px rgba(22,163,74,0.3)'">
             <i class="bi bi-plus-circle-fill"></i> New Appointment
         </button>
@@ -466,6 +564,15 @@ $all_docs_dw = $conn->query("SELECT id, full_name, specialization, schedule_days
         </div>
         <?php $shown++; endforeach;?>
         <?php $rem=count($dam)-$shown; if($rem>0): ?><span class="more-pill" onclick="event.stopPropagation();viewDay('<?php echo $ds;?>')">+<?php echo $rem;?> more</span><?php endif;?>
+        <!-- Mobile: colored dots instead of chips -->
+        <?php if(!empty($dam)): ?>
+        <div class="mobile-dot-row" style="display:none;">
+            <?php foreach(array_slice($dam,0,5) as $md):
+                $mc=isset($md['doctor_id'])&&$md['doctor_id']?($doctor_color_map[$md['doctor_id']]??$default_color):$default_color;
+            ?><span style="width:7px;height:7px;border-radius:50%;background:<?php echo $mc['border'];?>;flex-shrink:0;"></span><?php endforeach;?>
+            <?php if(count($dam)>5): ?><span style="font-size:0.55rem;color:var(--gray-500);font-weight:700;line-height:1;">+<?php echo count($dam)-5;?></span><?php endif;?>
+        </div>
+        <?php endif;?>
     </div>
     <?php $d++; endif; endfor;?>
     </div>
@@ -499,6 +606,16 @@ $w_now_top = (($w_now_h - $wopen_h) * 60 + $w_now_m);
 <?php endif;?>
 
 <!-- Week grid -->
+<!-- Mobile tip: week view is desktop-only, suggest day view -->
+<div class="week-mobile-tip" style="display:none;background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin-bottom:14px;text-align:center;">
+    <i class="bi bi-calendar-week" style="font-size:1.4rem;color:#2563eb;display:block;margin-bottom:6px;"></i>
+    <div style="font-size:0.85rem;font-weight:700;color:#1e40af;margin-bottom:4px;">Week view works best on desktop</div>
+    <div style="font-size:0.78rem;color:#3b82f6;margin-bottom:12px;">Switch to Day view for a better phone experience</div>
+    <a href="calendar.php?view=day&date=<?php echo $today;?>" style="display:inline-flex;align-items:center;gap:6px;padding:8px 20px;border-radius:10px;background:#2563eb;color:#fff;font-size:0.82rem;font-weight:700;text-decoration:none;">
+        <i class="bi bi-calendar-day"></i> Switch to Day View
+    </a>
+</div>
+<div class="week-grid-wrap">
 <div style="display:grid;grid-template-columns:52px repeat(6,1fr);border:1px solid var(--gray-200);border-radius:12px;overflow:hidden;background:var(--white);">
 
     <!-- Header row: day labels -->
@@ -575,10 +692,11 @@ $w_now_top = (($w_now_h - $wopen_h) * 60 + $w_now_m);
     <?php endfor;?>
     </div>
 </div>
+</div><!-- /.week-grid-wrap -->
 
 <?php else: ?>
 <!-- DAY VIEW -->
-<div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+<div class="day-nav-bar" style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
     <a href="calendar.php?view=day&date=<?php echo $prev_day;?>" class="btn btn-sm btn-outline-secondary"><i class="bi bi-chevron-left"></i></a>
     <h6 style="margin:0;min-width:200px;text-align:center;"><?php echo $day_label;?></h6>
     <a href="calendar.php?view=day&date=<?php echo $next_day;?>" class="btn btn-sm btn-outline-secondary"><i class="bi bi-chevron-right"></i></a>
