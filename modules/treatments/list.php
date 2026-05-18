@@ -97,7 +97,7 @@ $records = $conn->query("
         <div class="card">
             <div class="card-body p-0">
                 <div class="table-responsive">
-<table class="table table-hover mb-0">
+<table class="table table-hover mb-0 mobile-card-table">
                     <thead>
                         <tr>
                             <th>Patient</th>
@@ -115,7 +115,7 @@ $records = $conn->query("
                         <?php else: ?>
                             <?php foreach ($records as $r): ?>
                             <tr>
-                                <td>
+                                <td data-label="Patient">
                                     <a href="list.php?patient_id=<?php echo $r['patient_id']; ?>"
                                        style="font-weight:600;color:var(--gray-800);text-decoration:none;"
                                        title="Filter records by this patient">
@@ -123,16 +123,16 @@ $records = $conn->query("
                                     </a>
                                     <br><small class="text-muted"><?php echo htmlspecialchars($r['patient_code']); ?></small>
                                 </td>
-                                <td><?php echo date('M d, Y', strtotime($r['visit_date'])); ?></td>
-                                <td><?php echo htmlspecialchars($r['service_name'] ?? '—'); ?></td>
-                                <td><?php echo htmlspecialchars($r['tooth_number'] ?? '—'); ?></td>
-                                <td style="max-width:250px;">
+                                <td data-label="Visit Date"><?php echo date('M d, Y', strtotime($r['visit_date'])); ?></td>
+                                <td data-label="Service"><?php echo htmlspecialchars($r['service_name'] ?? '—'); ?></td>
+                                <td data-label="Tooth"><?php echo htmlspecialchars($r['tooth_number'] ?? '—'); ?></td>
+                                <td data-label="Treatment" style="max-width:250px;">
                                     <span title="<?php echo htmlspecialchars($r['treatment_done']); ?>">
                                         <?php echo htmlspecialchars(strlen($r['treatment_done']) > 60 ? substr($r['treatment_done'], 0, 60) . '...' : $r['treatment_done']); ?>
                                     </span>
                                 </td>
-                                <td><?php echo htmlspecialchars($r['recorded_by_name'] ?? '—'); ?></td>
-                                <td>
+                                <td data-label="Recorded By"><?php echo htmlspecialchars($r['recorded_by_name'] ?? '—'); ?></td>
+                                <td data-label="Actions">
                                     <div style="display:flex;gap:4px;flex-wrap:wrap;">
                                         <a href="view.php?id=<?php echo $r['id']; ?>" class="btn btn-sm btn-primary" title="View full dental record">
                                             <i class="bi bi-eye"></i> View
