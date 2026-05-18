@@ -53,7 +53,49 @@ $tsc = $status_map[$ts] ?? $status_map['normal'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<head><?php include '../../includes/head.php'; ?></head>
+<head><?php include '../../includes/head.php'; ?>
+<style>
+/* ── Dental Record view — mobile ── */
+@media (max-width: 640px) {
+    /* Stack the 2-column layout vertically */
+    .dental-view-grid {
+        grid-template-columns: 1fr !important;
+    }
+    /* Header action buttons: stack vertically */
+    .dental-view-actions {
+        flex-direction: column !important;
+        width: 100% !important;
+    }
+    .dental-view-actions a {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+    /* Medications/next-visit 2-col: stack */
+    .dental-meds-grid {
+        grid-template-columns: 1fr !important;
+    }
+    /* Patient quick-action buttons: wrap */
+    .patient-action-btns {
+        flex-wrap: wrap !important;
+    }
+    .patient-action-btns a {
+        flex: 1 !important;
+        justify-content: center !important;
+        text-align: center !important;
+    }
+    /* Tooth chart: allow horizontal scroll */
+    .tooth-chart-scroll {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+    /* Page header: stack on mobile */
+    .dental-page-header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 10px !important;
+    }
+}
+</style>
 <body>
 <?php include '../../includes/sidebar.php'; ?>
 <div class="main-content">
@@ -72,7 +114,7 @@ $tsc = $status_map[$ts] ?? $status_map['normal'];
                     &nbsp;·&nbsp; Visit: <?php echo date('F d, Y', strtotime($r['visit_date'])); ?>
                 </p>
             </div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <div class="dental-view-actions" style="display:flex;gap:8px;flex-wrap:wrap;">
                 <a href="list.php?patient_id=<?php echo $r['pid']; ?>" class="btn btn-sm btn-outline-secondary">
                     <i class="bi bi-arrow-left"></i> All Records for Patient
                 </a>
@@ -103,7 +145,7 @@ $tsc = $status_map[$ts] ?? $status_map['normal'];
         </div>
         <?php endif; ?>
 
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+        <div class="dental-view-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
 
             <!-- LEFT: Clinical Details -->
             <div class="card">
@@ -155,7 +197,7 @@ $tsc = $status_map[$ts] ?? $status_map['normal'];
                         $primary_upper = ['55','54','53','52','51','61','62','63','64','65'];
                         $primary_lower = ['85','84','83','82','81','71','72','73','74','75'];
                         ?>
-                        <div style="background:var(--gray-50);border:1px solid var(--gray-200);border-radius:10px;padding:14px 10px;overflow-x:auto;">
+                        <div class="tooth-chart-scroll" style="background:var(--gray-50);border:1px solid var(--gray-200);border-radius:10px;padding:14px 10px;overflow-x:auto;-webkit-overflow-scrolling:touch;">
                             <!-- Upper permanent -->
                             <div style="display:flex;justify-content:center;gap:3px;margin-bottom:3px;">
                                 <?php foreach($upper as $tn):
@@ -224,7 +266,7 @@ $tsc = $status_map[$ts] ?? $status_map['normal'];
                     </div>
 
                     <!-- Medications -->
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                    <div class="dental-meds-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
                         <div>
                             <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--gray-400);font-weight:600;margin-bottom:4px;">Medications Prescribed</div>
                             <div style="font-size:0.82rem;color:var(--gray-700);">
@@ -275,7 +317,7 @@ $tsc = $status_map[$ts] ?? $status_map['normal'];
                                 <?php endif; ?>
                             </div>
                         </div>
-                        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                        <div class="patient-action-btns" style="display:flex;gap:8px;flex-wrap:wrap;">
                             <a href="../patients/view.php?id=<?php echo $r['pid']; ?>" class="btn btn-sm btn-outline-primary">
                                 <i class="bi bi-person"></i> Full Profile
                             </a>
