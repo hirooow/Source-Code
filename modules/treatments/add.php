@@ -164,7 +164,57 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<head><?php include '../../includes/head.php'; ?></head>
+<head><?php include '../../includes/head.php'; ?>
+<style>
+/* ── Add Dental Record — mobile ── */
+@media (max-width: 640px) {
+    /* Workflow breadcrumb: scrollable on small phones */
+    .workflow-breadcrumb {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        white-space: nowrap !important;
+        padding-bottom: 4px !important;
+    }
+    /* Tooth chart: scrollable, teeth slightly smaller */
+    #toothChartWrap {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        padding: 12px 8px !important;
+    }
+    .tooth-btn {
+        width: 28px !important;
+        height: 28px !important;
+        font-size: 0.58rem !important;
+    }
+    /* Tooth root indicators shrink too */
+    #toothChartWrap [style*="height:6px"] {
+        width: 28px !important;
+    }
+    /* Primary teeth circle buttons */
+    #toothChartWrap [style*="border-radius:50%"].tooth-btn {
+        width: 26px !important;
+        height: 26px !important;
+    }
+    /* Condition preview: full width */
+    #conditionPreview {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+    /* Save + Cancel buttons: stack */
+    .dental-form-actions {
+        flex-direction: column !important;
+    }
+    .dental-form-actions > * {
+        width: 100% !important;
+        text-align: center !important;
+        justify-content: center !important;
+    }
+    /* Medical alert grid: single column */
+    .medical-alert-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+</style>
 <body>
 <?php include '../../includes/sidebar.php'; ?>
 <div class="main-content">
@@ -173,7 +223,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <!-- Workflow breadcrumb -->
         <?php if ($pre_appointment_id): ?>
-        <div style="background:var(--blue-50);border:1px solid var(--blue-100);border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:0.82rem;">
+        <div class="workflow-breadcrumb" style="background:var(--blue-50);border:1px solid var(--blue-100);border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:0.82rem;">
             <strong style="color:var(--blue-600);">Patient Flow:</strong>
             <span style="color:var(--gray-500);">Appointment</span>
             <i class="bi bi-arrow-right" style="color:var(--gray-400);margin:0 6px;"></i>
@@ -205,7 +255,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </span>
                 <?php endif; ?>
             </div>
-            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;">
+            <div class="medical-alert-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;">
                 <?php if ($pre_patient['allergies']): ?>
                 <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:7px;padding:8px 12px;">
                     <div style="font-size:0.7rem;font-weight:700;color:#dc2626;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:3px;">
@@ -428,7 +478,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <textarea name="next_visit_notes" class="form-control" rows="2" placeholder="Follow-up instructions..."></textarea>
                         </div>
                     </div>
-                    <div class="mt-3" style="display:flex;gap:10px;">
+                    <div class="dental-form-actions mt-3" style="display:flex;gap:10px;">
                         <button type="submit" class="btn btn-success"><i class="bi bi-check-lg"></i> Save Record</button>
                         <a href="<?php echo $pre_appointment_id ? BASE_URL.'modules/appointments/list.php' : ($pre_patient_id ? '../patients/view.php?id='.$pre_patient_id : 'list.php'); ?>" class="btn btn-outline-secondary">Cancel</a>
                     </div>
