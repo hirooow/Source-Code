@@ -1,1 +1,3 @@
-# cap
+The purpose of our project is to develop a Dental Clinic Management and Recording System that will help dental clinics manage patient records and daily operations in a faster, more organized, and more efficient way.
+The system aims to replace the manual paper-based process currently used by Honeytooth Dental Clinic and Amparo Dental Clinic. Through this system, patient information, appointments, treatments, billing, and records can be stored digitally in a centralized database for easier access and management.
+Our project also aims to reduce errors, minimize the time spent on manual tasks, improve data security, and enhance the overall quality of service provided to patients.
